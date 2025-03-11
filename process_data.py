@@ -1,10 +1,10 @@
 import pandas as pd
 from datetime import datetime
-# import statsmodels.api as sm
+import statsmodels.api as sm
 import numpy as np
 
 pd.set_option('display.max_row', None)
-# pd.set_option('display.max_columns', None)
+pd.set_option('display.max_columns', None)
 
 def merge_data(data, factor):
     '''
@@ -169,69 +169,66 @@ if __name__ == '__main__':
 
     df = merge_data(data, factor)
     df = drop_company(df)
-    print(df)
 
     x_train, y_train = split_data(df, 202412, 202411)
-    print(x_train)
-    print(y_train)
     model, leverage, loo_error, rmse_train = run_regression(x_train, y_train)
-    # print(f'RMSE: {rmse_train:.4f}')
-    # print(f'leverage scores分佈: {np.percentile(leverage, [1, 20, 50, 75, 99])}')
-    # print(f'leverage max: {np.max(leverage)}')
-    # print(f'loo error分佈: {np.percentile(loo_error, [1, 20, 50, 75, 99])}')
-    # print(f'loo error max: {np.max(loo_error)}')
-    # print('*********************')
+    print(f'RMSE: {rmse_train:.4f}')
+    print(f'leverage scores分佈: {np.percentile(leverage, [1, 20, 50, 75, 99])}')
+    print(f'leverage max: {np.max(leverage)}')
+    print(f'loo error分佈: {np.percentile(loo_error, [1, 20, 50, 75, 99])}')
+    print(f'loo error max: {np.max(loo_error)}')
+    print('*********************')
 
     x_test, y_test = split_data(df, 202501, 202412)
     rmse_test = test_estimated(x_test, y_test)
-    # print(f'Out of sample Rmse: {rmse_test}')
-    # print('*********************')
+    print(f'Out of sample Rmse: {rmse_test}')
+    print('*********************')
 
     filtered_train_rmse, filtered_test_rmse, leverage_filtered, loo_error_filtered = run_regression_with_filter(
         x_train, y_train, x_test, y_test)
-    # print(f'after filter train RMSE: {filtered_train_rmse}')
-    # print(
-    #     f'after filter leverage scores分佈: {np.percentile(leverage_filtered, [1, 20, 50, 75, 99])}')
-    # print(f'after filter leverage max: {np.max(leverage_filtered)}')
-    # print(
-    #     f'after filter loo error分佈: {np.percentile(loo_error_filtered, [1, 20, 50, 75, 99])}')
-    # print(f'after filter loo error max: {np.max(loo_error_filtered)}')
-    # print(f'after filter test RMSE: {filtered_test_rmse}')
-    # print('*********************')
+    print(f'after filter train RMSE: {filtered_train_rmse}')
+    print(
+        f'after filter leverage scores分佈: {np.percentile(leverage_filtered, [1, 20, 50, 75, 99])}')
+    print(f'after filter leverage max: {np.max(leverage_filtered)}')
+    print(
+        f'after filter loo error分佈: {np.percentile(loo_error_filtered, [1, 20, 50, 75, 99])}')
+    print(f'after filter loo error max: {np.max(loo_error_filtered)}')
+    print(f'after filter test RMSE: {filtered_test_rmse}')
+    print('*********************')
 
     filteredloo_train_rmse, filteredloo_test_rmse, leverage_filteredloo, loo_error_filteredloo = run_regression_with_filterloo(
         x_train, y_train, x_test, y_test)
-    # print(f'after filteloo train RMSE: {filteredloo_train_rmse}')
-    # print(
-    #     f'after filterloo leverage scores分佈: {np.percentile(leverage_filteredloo, [1, 20, 50, 75, 99])}')
-    # print(f'after filterloo leverage max: {np.max(leverage_filteredloo)}')
-    # print(
-    #     f'after filterloo loo error分佈: {np.percentile(loo_error_filteredloo, [1, 20, 50, 75, 99])}')
-    # print(f'after filterloo loo error max: {np.max(loo_error_filteredloo)}')
-    # print(f'after filterloo test RMSE: {filteredloo_test_rmse}')
+    print(f'after filteloo train RMSE: {filteredloo_train_rmse}')
+    print(
+        f'after filterloo leverage scores分佈: {np.percentile(leverage_filteredloo, [1, 20, 50, 75, 99])}')
+    print(f'after filterloo leverage max: {np.max(leverage_filteredloo)}')
+    print(
+        f'after filterloo loo error分佈: {np.percentile(loo_error_filteredloo, [1, 20, 50, 75, 99])}')
+    print(f'after filterloo loo error max: {np.max(loo_error_filteredloo)}')
+    print(f'after filterloo test RMSE: {filteredloo_test_rmse}')
     
-    # data_dict = {
-    #     "指標": [
-    #         "Train RMSE", "Test RMSE",
-    #         "Leverage Score 分佈", "Leverage Score Max",
-    #         "LOO Error 分佈", "LOO Error Max"
-    #     ],
-    #     "原始模型": [
-    #         163.4048, 128.2772,
-    #         [0.0036, 0.0053, 0.0080, 0.0141, 0.2257], 0.2963,
-    #         [-0.8887, -0.0335, 0.0047, 0.0375, 0.9338], 3.3045
-    #     ],
-    #     "過濾 Leverage": [
-    #         160.8392, 127.4231,
-    #         [0.0038, 0.0063, 0.0101, 0.0184, 0.1307], 0.1587,
-    #         [-1.0138, -0.0382, 0.0072, 0.0491, 0.6852], 2.4848
-    #     ],
-    #     "過濾 LOO Error": [
-    #         161.8945, 131.0010,
-    #         [0.0036, 0.0056, 0.0086, 0.0146, 0.2038], 0.2699,
-    #         [-0.9888, -0.0337, 0.0055, 0.0397, 0.5950], 2.5328
-    #     ]
-    # }
+    data_dict = {
+        "指標": [
+            "Train RMSE", "Test RMSE",
+            "Leverage Score 分佈", "Leverage Score Max",
+            "LOO Error 分佈", "LOO Error Max"
+        ],
+        "原始模型": [
+            163.4048, 128.2772,
+            [0.0036, 0.0053, 0.0080, 0.0141, 0.2257], 0.2963,
+            [-0.8887, -0.0335, 0.0047, 0.0375, 0.9338], 3.3045
+        ],
+        "過濾 Leverage": [
+            160.8392, 127.4231,
+            [0.0038, 0.0063, 0.0101, 0.0184, 0.1307], 0.1587,
+            [-1.0138, -0.0382, 0.0072, 0.0491, 0.6852], 2.4848
+        ],
+        "過濾 LOO Error": [
+            161.8945, 131.0010,
+            [0.0036, 0.0056, 0.0086, 0.0146, 0.2038], 0.2699,
+            [-0.9888, -0.0337, 0.0055, 0.0397, 0.5950], 2.5328
+        ]
+    }
     
-    # df = pd.DataFrame(data_dict)
-    # print(df)
+    df = pd.DataFrame(data_dict)
+    print(df)
