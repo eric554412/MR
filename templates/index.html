@@ -1,0 +1,23 @@
+
+{% extends "layout.html" %}
+{% block title %}上傳資料{% endblock %}
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">上傳資料進行分析</h1>
+        <p class="col-md-8 fs-4">請上傳您的收盤價資料 (close.csv) 和因子資料 (factor.csv)。系統將會自動進行數據清理、執行迴歸分析，並產出三種不同模型（原始、過濾Leverage、過濾LOO Error）的效能報告。</p>
+    </div>
+</div>
+
+<form method=post enctype=multipart/form-data>
+    <div class="mb-3">
+        <label for="data_file" class="form-label"><b>收盤價資料 (CSV/TXT)</b></label>
+        <input class="form-control" type="file" id="data_file" name=data_file required>
+    </div>
+    <div class="mb-3">
+        <label for="factor_file" class="form-label"><b>因子資料 (CSV/TXT)</b></label>
+        <input class="form-control" type="file" id="factor_file" name=factor_file required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">開始分析</button>
+</form>
+{% endblock %}
