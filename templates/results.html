@@ -1,0 +1,13 @@
+
+{% extends "layout.html" %}
+{% block title %}分析結果{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">分析結果報告</h1>
+    <p class="lead">以下是基於您上傳的資料所產生的迴歸模型分析報告。</p>
+    <div class="table-responsive">
+        {{ table|safe }}
+    </div>
+    <a href="/" class="btn btn-secondary mt-3">返回重新上傳</a>
+</div>
+{% endblock %}
